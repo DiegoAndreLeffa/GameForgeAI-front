@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { api } from "@/services/api";
 import { Project } from "@/types";
@@ -93,7 +94,8 @@ export default function ProjectsPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project) => (
-              <div
+              <Link
+                href={`/projects/${project._id}`}
                 key={project._id}
                 className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 hover:border-purple-500/50 transition-all flex flex-col justify-between h-full group"
               >
@@ -106,7 +108,10 @@ export default function ProjectsPage() {
                       {project.name}
                     </h3>
                     <button
-                      onClick={() => handleDeleteClick(project._id)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleDeleteClick(project._id);
+                      }}
                       className="text-neutral-500 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
                       title="Deletar Projeto"
                     >
@@ -135,7 +140,7 @@ export default function ProjectsPage() {
                   Criado em:{" "}
                   {new Date(project.createdAt).toLocaleDateString("pt-BR")}
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
